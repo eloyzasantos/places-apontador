@@ -1,7 +1,8 @@
 package br.com.apontador.places.model;
 
-import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+@Document
 public class Place {
 
 	private String _id;

@@ -1,13 +1,13 @@
 package br.com.apontador.places.model;
 
 public class Geometry {
-	private LocationCoordinate location;
+	private Location location;
 
-	public LocationCoordinate getLocation() {
+	public Location getLocation() {
 		return location;
 	}
 
-	public void setLocation(LocationCoordinate location) {
+	public void setLocation(Location location) {
 		this.location = location;
 	}
 }

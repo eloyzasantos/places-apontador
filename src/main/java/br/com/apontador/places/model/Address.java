@@ -1,87 +1,99 @@
 package br.com.apontador.places.model;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
+import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 
 public class Address {
 	
-	@NotNull
-	@Min(3)
+	public Address(String street, String streetNumber, String district, String city, String state, String country,
+			String zipcode, GeoJsonPoint location) {
+		super();
+		this.street = street;
+		this.streetNumber = streetNumber;
+		this.district = district;
+		this.city = city;
+		this.state = state;
+		this.country = country;
+		this.zipcode = zipcode;
+		this.location = location;
+	}
+	
+	public Address() {
+		super();
+	}
+
 	private String street;
 	
-	@NotNull
-	@Min(1)
 	private String streetNumber;
 	
-	@NotNull
-	@Min(5)
 	private String district;
 	
-	@NotNull
-	@Min(2)
 	private String city;
 	
-	@NotNull
-	@Min(2)
 	private String state;
 	
-	@NotNull
-	@Min(2)
 	private String country;
 	
-	@NotNull
-	@Min(5)
 	private String zipcode;
 	
-	private Location location;
+	private String placeId;
+	
+	private GeoJsonPoint location;
 	
 
-	public Location getLocation() {
+	public GeoJsonPoint getLocation() {
 		return location;
 	}
-	public void setLocation(Location location) {
+	public void setLocation(GeoJsonPoint location) {
 		this.location = location;
 	}
 	public String getStreet() {
-		return street;
+		return street != null ? street : "";
 	}
 	public void setStreet(String street) {
 		this.street = street;
 	}
 	public String getStreetNumber() {
-		return streetNumber;
+		return streetNumber != null ? streetNumber : "";
 	}
 	public void setStreetNumber(String streetNumber) {
 		this.streetNumber = streetNumber;
 	}
 	public String getDistrict() {
-		return district;
+		return district != null ? district : "";
 	}
 	public void setDistrict(String district) {
 		this.district = district;
 	}
 	public String getCity() {
-		return city;
+		return city != null ? city : "";
 	}
 	public void setCity(String city) {
 		this.city = city;
 	}
 	public String getState() {
-		return state;
+		return state != null ? state : "";
 	}
 	public void setState(String state) {
 		this.state = state;
 	}
 	public String getCountry() {
-		return country;
+		return country != null ? country : "";
 	}
 	public void setCountry(String country) {
 		this.country = country;
 	}
 	public String getZipcode() {
-		return zipcode;
+		return zipcode != null ? zipcode : "";
 	}
 	public void setZipcode(String zipcode) {
-		this.zipcode = zipcode;
+		this.zipcode = zipcode != null ? zipcode.replaceAll("-", "").replaceAll(".", "") : null;
+	}
+
+	public String getPlaceId() {
+		return placeId;
+	}
+
+	public void setPlaceId(String placeId) {
+		this.placeId = placeId;
 	}
 }

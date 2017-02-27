@@ -1,6 +1,5 @@
 package br.com.apontador.places.controller;
 
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,43 +14,43 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import br.com.apontador.places.exception.CoordinatesNotFound;
+import br.com.apontador.places.exception.DuplicatePlace;
+import br.com.apontador.places.exception.InvalidPlaceBody;
 import br.com.apontador.places.exception.PlaceNotFound;
 import br.com.apontador.places.model.Address;
 import br.com.apontador.places.model.Place;
 import br.com.apontador.places.service.PlaceService;
+import br.com.apontador.places.util.Validator;
 
 @Controller
 public class PlaceController {
 	
 	@Autowired PlaceService placeService;
-
+	
 	@RequestMapping(value = "/save",  method = RequestMethod.POST, consumes = "application/json", produces = "application/json" )
 	@ResponseBody
-	public ResponseEntity save(@RequestBody Place place) {
-		try {
-			placeService.save(place);
-			return ResponseEntity.status(HttpStatus.OK).body(null);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-		}
+	public ResponseEntity save(@RequestBody Place place) throws CoordinatesNotFound, DuplicatePlace, InvalidPlaceBody {
+		if (!Validator.validatePlace(place)) throw new InvalidPlaceBody();
+		
+		placeService.save(place);
+		return ResponseEntity.status(HttpStatus.OK).body(null);
 	}
 	
 	@RequestMapping(value = "/list",  method = RequestMethod.GET)
 	@ResponseBody
-	public List<Place> search(@RequestParam(name="start", required=true) int start, 
-			@RequestParam(name="rows", required=true) int rows) {
-		return placeService.search(start, rows);
+	public Map search(@RequestParam(name="page", required=false, defaultValue="0") int page, 
+			@RequestParam(name="rows", required=false, defaultValue="10") int rows) {
+		return placeService.search(page > 0 ? page - 1 : page, rows);
 	}
 	
 	@RequestMapping(value = "/search",  method = RequestMethod.GET)
 	@ResponseBody
-	public List<Map> search(@RequestParam(name="start", required=true) int start, 
-			@RequestParam(name="rows", required=true) int rows, 
+	public Map search(@RequestParam(name="page", required=false, defaultValue="0") int page, 
+			@RequestParam(name="rows", required=false, defaultValue="10") int rows, 
 			@RequestParam(name="q", required=true) String q,
-			@RequestParam(name="address") Address address,
-			@RequestParam(name="maxDistance", required=false) double maxDistance) throws CoordinatesNotFound {
-		return placeService.search(start, rows, q, address, maxDistance);
+			@RequestParam(name="maxDistance", required=false, defaultValue = "2.0") Double maxDistance,
+			Address address) throws CoordinatesNotFound {
+		return placeService.search(page > 0 ? page - 1 : page, rows, q, address, maxDistance);
 	}
 	
 	@RequestMapping(value = "/get/{id}",  method = RequestMethod.GET)
