@@ -6,7 +6,10 @@ Pois o google já considera as variações de nome para retornar um local.
 - Logo, verifica-se se o local tem o mesmo endereço (place_id) de algum já cadastrado, e então, se tiver, compara-se os nomes. Se hambos nomes tiverem um índice de similaridade igual ou superior a 60%, considera-se que é um item duplicado e recusa o mesmo.
 - A distância de busca está sendo considerada em km pois acredito que uma busca com raio menor que 1km engloba poucos locais. E de qualquer forma é possível também usando um valor decimal menor que 1.
 
-- A conexão com o mongodb pode ser editada em application.properties. Os comandos utilizados no mongodb foram: <br/>
+- A api foi desenvolvida utilizando Maven para build das dependências, eclipse e tomcat.
+
+- O BD está em mongo e a conexão com o mongodb pode ser editada em application.properties. Os comandos utilizados no mongodb foram: <br/>
+
 use places<br/>
 db.createCollection("place")<br/>
 db.place.createIndex( { "address.location" : "2dsphere" } )<br/>
