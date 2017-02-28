@@ -17,10 +17,10 @@ public class Validator {
 	
 	public static boolean validatePlace(Place place) {
 		if (place != null && place.getName() != null && place.getAddress() != null &&
-			place.getAddress().getCity() != null && place.getAddress().getCountry() != null &&
-			place.getAddress().getDistrict() != null && place.getAddress().getState() != null &&
-			place.getAddress().getStreet() != null && place.getAddress().getStreetNumber() != null &&
-			place.getAddress().getZipcode() != null) {
+			!place.getAddress().getCity().isEmpty() && !place.getAddress().getCountry().isEmpty() &&
+			!place.getAddress().getDistrict().isEmpty() && !place.getAddress().getState().isEmpty() &&
+			!place.getAddress().getStreet().isEmpty() && !place.getAddress().getStreetNumber().isEmpty() &&
+			place.getAddress().getZipcode() != null && !place.getName().isEmpty()) {
 			return true;
 		}
 		return false;

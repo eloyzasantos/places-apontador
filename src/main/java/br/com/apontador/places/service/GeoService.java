@@ -18,8 +18,6 @@ public class GeoService {
 	
 	public void findGeoLocation(Address address) throws CoordinatesNotFound {
 		
-		address.setZipcode(address.getZipcode().replaceAll("-", "").replaceAll(".", ""));
-		
 		String url = createUrl(address);
 		
 		RestTemplate restTemplate = new RestTemplate();
