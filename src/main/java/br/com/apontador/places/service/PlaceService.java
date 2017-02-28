@@ -34,7 +34,7 @@ public class PlaceService {
 		Place placeWithSameAddress = repository.findByAddressPlaceId(place.getAddress().getPlaceId());
 		
 		if (placeWithSameAddress != null && StringSimilarity.isSimilar(place.getName(), placeWithSameAddress.getName())
-				&& (place.get_id() == null || placeWithSameAddress.get_id() != place.get_id())) {
+				&& (place.get_id() == null || !placeWithSameAddress.get_id().equals(place.get_id()))) {
 			throw new DuplicatePlace("Same address with similar place name");
 		}
 		
