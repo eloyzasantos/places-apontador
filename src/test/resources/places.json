@@ -1,0 +1,15 @@
+{
+	"place": {
+		"_id": "58b48602950d511364272097",
+		"name": "Curso de Costura",
+		"address": {
+			"street": "Rua Josefa Alves de Siqueira",
+			"streetNumber": "173",
+			"district": "Jardim Anhanguera",
+			"city": "Praia Grande",
+			"state": "SP",
+			"country": "BR",
+			"zipcode": "11718000"
+		}
+	}
+}
