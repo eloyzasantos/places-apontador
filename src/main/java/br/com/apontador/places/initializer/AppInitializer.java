@@ -12,8 +12,7 @@ import org.springframework.web.context.support.AnnotationConfigWebApplicationCon
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-@Configuration
-@EnableWebMvc
+
 public class AppInitializer implements WebApplicationInitializer {
 
     public void onStartup(ServletContext servletContext) throws ServletException {

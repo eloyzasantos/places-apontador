@@ -1,5 +1,6 @@
 package br.com.apontador.places.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.stereotype.Service;
@@ -14,13 +15,13 @@ import br.com.apontador.places.util.Validator;
 public class GeoService {
 
 	@Value("${maps.google.api.url}")
-	private String urlApi;
+	protected String urlApi;
+	
+	protected RestTemplate restTemplate = new RestTemplate();
 	
 	public void findGeoLocation(Address address) throws CoordinatesNotFound {
 		
 		String url = createUrl(address);
-		
-		RestTemplate restTemplate = new RestTemplate();
 		
 		ResponseGeoApi result = restTemplate.getForObject(url, ResponseGeoApi.class);
 		
@@ -35,11 +36,11 @@ public class GeoService {
 		address.setPlaceId(result.getResults().get(0).getPlace_id());
 	}
 	
-	private String createUrl(Address address) {
+	protected String createUrl(Address address) {
 		return String.format(urlApi, formatAddress(address), address.getCountry(), address.getZipcode());
 	}
 	
-	private String formatAddress(Address address) {
+	protected String formatAddress(Address address) {
 		StringBuilder formattedAddress = new StringBuilder(address.getStreetNumber())
 				.append(" ").append(address.getStreet()).append(" ")
 				.append(address.getDistrict()).append(" ")

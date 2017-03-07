@@ -18,7 +18,11 @@ import br.com.apontador.places.exception.CoordinatesNotFound;
 import br.com.apontador.places.exception.DuplicatePlace;
 import br.com.apontador.places.exception.PlaceNotFound;
 import br.com.apontador.places.model.Address;
+import br.com.apontador.places.model.Paginator;
 import br.com.apontador.places.model.Place;
+import br.com.apontador.places.model.ResponseList;
+import br.com.apontador.places.model.ResponseSearchNear;
+import br.com.apontador.places.model.ResultSearchNear;
 import br.com.apontador.places.repository.PlaceRepository;
 import br.com.apontador.places.util.StringSimilarity;
 
@@ -28,8 +32,10 @@ public class PlaceService {
 	@Autowired GeoService geoService;
 	@Autowired PlaceRepository repository;
 	
-	public void save(Place place) throws CoordinatesNotFound, DuplicatePlace {
+	public void save(Place place) throws CoordinatesNotFound, DuplicatePlace, PlaceNotFound {
 		geoService.findGeoLocation(place.getAddress());
+		
+		if (place.get_id() != null && !repository.exists(place.get_id())) throw new PlaceNotFound();
 		
 		Place placeWithSameAddress = repository.findByAddressPlaceId(place.getAddress().getPlaceId());
 		
@@ -40,6 +46,7 @@ public class PlaceService {
 		
 		place.setActive(true);
 		repository.save(place);
+		
 	}
 	
 	public Place get(String id) throws PlaceNotFound {
@@ -57,8 +64,8 @@ public class PlaceService {
 		repository.save(place);
 	}
 	
-	public Map<String, Object> search(int page, int rows) {
-		Map<String, Object> response = new HashMap<String, Object>();
+	public ResponseList list(int page, int rows) {
+		ResponseList response = new ResponseList();
 		List<Place> result = new ArrayList<Place>();
 		
 		
@@ -70,19 +77,19 @@ public class PlaceService {
 			setPageResult(response, 0, 0, page);
 		}
 		
-		response.put("results", result);
+		response.setResults(result);
 		return response;
 		
 	}
 
-	public Map<String, Object> search(int page, int rows, String q, Address address, double maxDistance) throws CoordinatesNotFound {
+	public ResponseSearchNear search(int page, int rows, String q, Address address, double maxDistance) throws CoordinatesNotFound {
 		geoService.findGeoLocation(address);
 		
 		Point point = new Point(address.getLocation().getX(), address.getLocation().getY());
 		Distance distance = new Distance(maxDistance, Metrics.KILOMETERS);
 		
-		Map<String, Object> response = new HashMap<String, Object>();
-		List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
+		ResponseSearchNear response = new ResponseSearchNear();
+		List<ResultSearchNear> results = new ArrayList<ResultSearchNear>();
 		
 		try {
 			Page<GeoResult<Place>> list = repository.findByAddressLocationNear(q, point, distance, new PageRequest(page, rows));
@@ -90,22 +97,22 @@ public class PlaceService {
 			setPageResult(response, list.getTotalElements(), list.getTotalPages(), list.getNumber());
 			
 			for(GeoResult<Place> geo : list.getContent()) {
-				Map<String, Object> map = new HashMap<String, Object>();
-				map.put("place", geo.getContent());
-				map.put("distance", geo.getDistance());
-				result.add(map);
+				ResultSearchNear result = new ResultSearchNear();
+				result.setDistance(geo.getDistance());
+				result.setPlace(geo.getContent());
+				results.add(result);
 			}
 		} catch (Exception ex) {
 			setPageResult(response, 0, 0, page);
 		}
 		
-		response.put("results", result);
+		response.setResults(results);
 		return response;
 	}
 	
-	private void setPageResult(Map<String, Object> map, long total, long pages, long page) {
-		map.put("found", total);
-		map.put("pages", pages);
-		map.put("page", page + 1);
+	private void setPageResult(Paginator pag, long total, int pages, int page) {
+		pag.setFound(total);
+		pag.setPages(pages);
+		pag.setPage(page + 1);
 	}
 }

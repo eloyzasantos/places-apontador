@@ -10,7 +10,7 @@ public class StringSimilarity {
 		
 		double score = (1 - (difference / Math.max(x.length(), y.length()))) *100;
 		
-		return score >= 60.00;
+		return score >= 70.00;
 	}
 
 }

@@ -1,7 +1,17 @@
 package br.com.apontador.places.model;
 
 public class ResultGeoApi {
+	public ResultGeoApi() {
+		super();
+	}
+
 	private Geometry geometry;
+	public ResultGeoApi(Geometry geometry, String place_id) {
+		super();
+		this.geometry = geometry;
+		this.place_id = place_id;
+	}
+
 	private String place_id;
 
 	public Geometry getGeometry() {

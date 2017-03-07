@@ -18,6 +18,7 @@ import com.mongodb.MongoClientURI;
 
 
 @Configuration
+@EnableWebMvc
 @PropertySource("classpath:application.properties")
 @ComponentScan(basePackages = "br.com.apontador.places", excludeFilters = { @Filter(type = org.springframework.context.annotation.FilterType.ANNOTATION, value = Configuration.class) })
 @EnableMongoRepositories(basePackages = "br.com.apontador.places.repository")

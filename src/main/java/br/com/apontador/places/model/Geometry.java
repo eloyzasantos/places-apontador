@@ -7,6 +7,15 @@ public class Geometry {
 		return location;
 	}
 
+	public Geometry(Location location) {
+		super();
+		this.location = location;
+	}
+
+	public Geometry() {
+		super();
+	}
+
 	public void setLocation(Location location) {
 		this.location = location;
 	}
