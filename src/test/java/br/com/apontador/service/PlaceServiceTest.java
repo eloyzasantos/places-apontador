@@ -3,15 +3,16 @@ package br.com.apontador.service;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.io.IOException;
+
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import com.github.fakemongo.junit.FongoRule;
 
 import br.com.apontador.places.config.AppConfigTest;
 import br.com.apontador.places.exception.CoordinatesNotFound;
@@ -22,19 +23,23 @@ import br.com.apontador.places.model.Place;
 import br.com.apontador.places.model.ResponseList;
 import br.com.apontador.places.service.PlaceService;
 
+import com.github.fakemongo.junit.FongoRule;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes={AppConfigTest.class})
 public class PlaceServiceTest {
 
 	 @Rule
 	 public FongoRule fongoRule = new FongoRule();
+	 
+	 @Autowired MongoTemplate mongoTemplate;
 	
 	 @Autowired private PlaceService placeService;
 
 	 @Before
-	 public void before() throws CoordinatesNotFound, DuplicatePlace, PlaceNotFound {
-		 Place place = getPlace();
-		 placeService.save(place);
+	 public void before() throws CoordinatesNotFound, DuplicatePlace, PlaceNotFound, IOException {
+		 mongoTemplate.dropCollection(Place.class);
+		 placeService.save(getPlace());
 	 }
 	 
 	 @Test(expected=PlaceNotFound.class)
