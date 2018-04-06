@@ -1,4 +1,4 @@
-# places-apontador
+# places-manager
 
 Observações
 - Quanto a verificação de duplicidade, na parte de endereço, a api se baseia no place_id retornado da api do Google.

@@ -1,4 +1,4 @@
-package br.com.apontador.places.model;
+package br.com.manager.places.model;
 
 public class Location {
 	

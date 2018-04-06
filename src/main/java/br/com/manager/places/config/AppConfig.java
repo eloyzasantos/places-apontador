@@ -1,4 +1,4 @@
-package br.com.apontador.places.config;
+package br.com.manager.places.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -20,8 +20,8 @@ import com.mongodb.MongoClientURI;
 @Configuration
 @EnableWebMvc
 @PropertySource("classpath:application.properties")
-@ComponentScan(basePackages = "br.com.apontador.places", excludeFilters = { @Filter(type = org.springframework.context.annotation.FilterType.ANNOTATION, value = Configuration.class) })
-@EnableMongoRepositories(basePackages = "br.com.apontador.places.repository")
+@ComponentScan(basePackages = "br.com.manager.places", excludeFilters = { @Filter(type = org.springframework.context.annotation.FilterType.ANNOTATION, value = Configuration.class) })
+@EnableMongoRepositories(basePackages = "br.com.manager.places.repository")
 public class AppConfig extends AbstractMongoConfiguration 
 {
 
@@ -54,7 +54,7 @@ public class AppConfig extends AbstractMongoConfiguration
 	
 	@Override
 	protected String getMappingBasePackage() {
-		return "br.com.apontador.places.repository";
+		return "br.com.manager.places.repository";
 	}
 	
 }

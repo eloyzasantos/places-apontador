@@ -1,5 +1,11 @@
-package br.com.apontador.places.controller;
+package br.com.manager.places.controller;
 
+import br.com.manager.places.model.Address;
+import br.com.manager.places.model.Place;
+import br.com.manager.places.model.ResponseList;
+import br.com.manager.places.model.ResponseSearchNear;
+import br.com.manager.places.service.PlaceService;
+import br.com.manager.places.util.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,21 +17,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import br.com.apontador.places.exception.CoordinatesNotFound;
-import br.com.apontador.places.exception.DuplicatePlace;
-import br.com.apontador.places.exception.InvalidPlaceBody;
-import br.com.apontador.places.exception.PlaceNotFound;
-import br.com.apontador.places.model.Address;
-import br.com.apontador.places.model.Place;
-import br.com.apontador.places.model.ResponseList;
-import br.com.apontador.places.model.ResponseSearchNear;
-import br.com.apontador.places.service.PlaceService;
-import br.com.apontador.places.util.Validator;
+import br.com.manager.places.exception.CoordinatesNotFound;
+import br.com.manager.places.exception.DuplicatePlace;
+import br.com.manager.places.exception.InvalidPlaceBody;
+import br.com.manager.places.exception.PlaceNotFound;
 
 @Controller
 public class PlaceController {
 	
-	@Autowired PlaceService placeService;
+	@Autowired
+    PlaceService placeService;
 	
 	@RequestMapping(value = "/save",  method = RequestMethod.POST, consumes = "application/json", produces = "application/json" )
 	@ResponseBody
@@ -48,18 +49,18 @@ public class PlaceController {
 	
 	@RequestMapping(value = "/list",  method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseList search(@RequestParam(name="page", required=false, defaultValue="0") int page, 
-			@RequestParam(name="rows", required=false, defaultValue="10") int rows) {
+	public ResponseList search(@RequestParam(name="page", required=false, defaultValue="0") int page,
+                               @RequestParam(name="rows", required=false, defaultValue="10") int rows) {
 		return placeService.list(page > 0 ? page - 1 : page, rows);
 	}
 	
 	@RequestMapping(value = "/search",  method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseSearchNear search(@RequestParam(name="page", required=false, defaultValue="0") int page, 
-			@RequestParam(name="rows", required=false, defaultValue="10") int rows, 
-			@RequestParam(name="q", required=true) String q,
-			@RequestParam(name="maxDistance", required=false, defaultValue = "2.0") Double maxDistance,
-			Address address) throws CoordinatesNotFound {
+	public ResponseSearchNear search(@RequestParam(name="page", required=false, defaultValue="0") int page,
+                                     @RequestParam(name="rows", required=false, defaultValue="10") int rows,
+                                     @RequestParam(name="q", required=true) String q,
+                                     @RequestParam(name="maxDistance", required=false, defaultValue = "2.0") Double maxDistance,
+                                     Address address) throws CoordinatesNotFound {
 		return placeService.search(page > 0 ? page - 1 : page, rows, q, address, maxDistance);
 	}
 	

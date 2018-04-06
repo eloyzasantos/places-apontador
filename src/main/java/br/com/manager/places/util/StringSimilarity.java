@@ -1,4 +1,4 @@
-package br.com.apontador.places.util;
+package br.com.manager.places.util;
 
 import org.apache.commons.lang3.StringUtils;
 

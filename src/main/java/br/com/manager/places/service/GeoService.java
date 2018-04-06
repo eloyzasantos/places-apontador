@@ -1,15 +1,13 @@
-package br.com.apontador.places.service;
+package br.com.manager.places.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import br.com.manager.places.exception.CoordinatesNotFound;
+import br.com.manager.places.model.Address;
+import br.com.manager.places.model.ResponseGeoApi;
+import br.com.manager.places.util.Validator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-
-import br.com.apontador.places.exception.CoordinatesNotFound;
-import br.com.apontador.places.model.Address;
-import br.com.apontador.places.model.ResponseGeoApi;
-import br.com.apontador.places.util.Validator;
 
 @Service
 public class GeoService {

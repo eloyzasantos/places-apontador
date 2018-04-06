@@ -1,9 +1,7 @@
-package br.com.apontador.places.service;
+package br.com.manager.places.service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,17 +12,17 @@ import org.springframework.data.geo.Metrics;
 import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Service;
 
-import br.com.apontador.places.exception.CoordinatesNotFound;
-import br.com.apontador.places.exception.DuplicatePlace;
-import br.com.apontador.places.exception.PlaceNotFound;
-import br.com.apontador.places.model.Address;
-import br.com.apontador.places.model.Paginator;
-import br.com.apontador.places.model.Place;
-import br.com.apontador.places.model.ResponseList;
-import br.com.apontador.places.model.ResponseSearchNear;
-import br.com.apontador.places.model.ResultSearchNear;
-import br.com.apontador.places.repository.PlaceRepository;
-import br.com.apontador.places.util.StringSimilarity;
+import br.com.manager.places.exception.CoordinatesNotFound;
+import br.com.manager.places.exception.DuplicatePlace;
+import br.com.manager.places.exception.PlaceNotFound;
+import br.com.manager.places.model.Address;
+import br.com.manager.places.model.Paginator;
+import br.com.manager.places.model.Place;
+import br.com.manager.places.model.ResponseList;
+import br.com.manager.places.model.ResponseSearchNear;
+import br.com.manager.places.model.ResultSearchNear;
+import br.com.manager.places.repository.PlaceRepository;
+import br.com.manager.places.util.StringSimilarity;
 
 @Service
 public class PlaceService {

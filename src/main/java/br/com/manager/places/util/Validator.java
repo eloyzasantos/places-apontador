@@ -1,7 +1,7 @@
-package br.com.apontador.places.util;
+package br.com.manager.places.util;
 
-import br.com.apontador.places.model.Place;
-import br.com.apontador.places.model.ResponseGeoApi;
+import br.com.manager.places.model.Place;
+import br.com.manager.places.model.ResponseGeoApi;
 
 public class Validator {
 	

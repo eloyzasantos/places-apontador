@@ -1,4 +1,4 @@
-package br.com.apontador.places.initializer;
+package br.com.manager.places.initializer;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -25,7 +25,7 @@ public class AppInitializer implements WebApplicationInitializer {
 
     private AnnotationConfigWebApplicationContext getContext() {
         AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
-        context.setConfigLocation("br.com.apontador.places.config");
+        context.setConfigLocation("br.com.manager.places.config");
         return context;
     }
 
