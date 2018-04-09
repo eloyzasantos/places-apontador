@@ -1,6 +1,8 @@
-package br.com.manager.places.model;
+package br.com.manager.places.domain;
 
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import br.com.manager.places.model.Address;
 
 @Document
 public class Place {
@@ -10,6 +12,23 @@ public class Place {
 	private boolean active;
 	
 	private Address address;
+	
+	public Place() {
+		super();
+	}
+
+	public Place(String name, Address address) {
+		super();
+		this.name = name;
+		this.address = address;
+	}
+	
+	public Place(String id, String name, Address address) {
+		super();
+		this._id = id;
+		this.name = name;
+		this.address = address;
+	}
 
 
 	public boolean isActive() {

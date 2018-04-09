@@ -1,6 +1,5 @@
 package br.com.manager.places.repository;
 
-import br.com.manager.places.model.Place;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.geo.Distance;
@@ -8,6 +7,8 @@ import org.springframework.data.geo.GeoResult;
 import org.springframework.data.geo.Point;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
+
+import br.com.manager.places.domain.Place;
 
 public interface PlaceRepository extends MongoRepository<Place, String> {
 	

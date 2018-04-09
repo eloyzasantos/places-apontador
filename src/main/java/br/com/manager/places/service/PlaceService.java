@@ -12,12 +12,12 @@ import org.springframework.data.geo.Metrics;
 import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Service;
 
+import br.com.manager.places.domain.Place;
 import br.com.manager.places.exception.CoordinatesNotFound;
 import br.com.manager.places.exception.DuplicatePlace;
 import br.com.manager.places.exception.PlaceNotFound;
 import br.com.manager.places.model.Address;
 import br.com.manager.places.model.Paginator;
-import br.com.manager.places.model.Place;
 import br.com.manager.places.model.ResponseList;
 import br.com.manager.places.model.ResponseSearchNear;
 import br.com.manager.places.model.ResultSearchNear;

@@ -1,30 +1,46 @@
 # places-manager
 
-Observações
-- Quanto a verificação de duplicidade, na parte de endereço, a api se baseia no place_id retornado da api do Google.
-Pois o google já considera as variações de nome para retornar um local.
-- Logo, verifica-se se o local tem o mesmo endereço (place_id) de algum já cadastrado, e então, se tiver, compara-se os nomes. Se hambos nomes tiverem um índice de similaridade igual ou superior a 60%, considera-se que é um item duplicado e recusa o mesmo.
-- A distância de busca está sendo considerada em km pois acredito que uma busca com raio menor que 1km engloba poucos locais. E de qualquer forma é possível também usando um valor decimal menor que 1.
-
-- A api foi desenvolvida utilizando Maven para build das dependências, eclipse e tomcat.
-
-- O BD está em mongo e a conexão com o mongodb pode ser editada em application.properties. Os comandos utilizados no mongodb foram: <br/>
+- Necessário ter instalado Java 7+, MongoDB, Maven para build e IDE;
+- Projeto está com plugin do jetty, então ele pode ser executado com "mvn jetty:run"
+- A conexão com o mongodb pode ser editada em application.properties. Os comandos que devem ser executados para criação são: <br/>
 
 use places<br/>
 db.createCollection("place")<br/>
 db.place.createIndex( { "address.location" : "2dsphere" } )<br/>
 
-- O path places está sendo considerado com base em que será deployado no tomcat, de forma que o war está sendo gerado com o nome "places".
-
 # Serviços
 
-## places/save POST
+## places POST
 
-Descrição: Insere ou edita um local.
+Descrição: Insere um local.
 
 ```javascript
 {
-   "_id": "opcional - quando enviado irá editar o item com este id. Quando não enviado, irá salvar novo item"
+   "name": "Nome do local - obrigatório",
+   "address": {
+    "street": "Rua do local - obrigatório",
+    "streetNumber": "Número - obrigatório",
+    "district": "Bairro - obrigatório",
+    "city": "Cidade - obrigatório",
+    "state": "Sigla Estado, ex SP - obrigatório",
+    "country": "Sigla País, ex. BR - obrigatório",
+    "zipcode": "CEP - obrigatório"
+   }
+}
+```
+
+Response Status:<br/>
+201: CREATED<br/>
+404: Address is Invalid. Coordinates not found.<br/>
+400: Name and Address fields are required.<br/>
+409: Duplicate place: Found same address with similar place name<br/>
+
+## places/{id} PUT
+
+Descrição: Edita um local.
+
+```javascript
+{
    "name": "Nome do local - obrigatório",
    "address": {
     "street": "Rua do local - obrigatório",
@@ -44,7 +60,7 @@ Response Status:<br/>
 400: Name and Address fields are required.<br/>
 409: Duplicate place: Found same address with similar place name<br/>
 
-## places/get/{id} GET
+## places/{id} GET
 
 Descrição: Busca local por id.
 
@@ -81,7 +97,7 @@ Status response:<br/>
 200: OK<br/>
 404: Place not found<br/>
 
-## places/list GET
+## places GET
 
 Descrição: Lista locais paginadamente.
 
@@ -196,7 +212,7 @@ Ex. Response body:
 Status Response:<br/>
 200: OK<br/>
 
-## places/disable/{id} GET
+## places/{id} DELETE
 
 Descrição: Desativa um local por id. Locais desativados não são retornados nos serviços search e list.
 
@@ -206,7 +222,7 @@ Status response:<br/>
 200: OK<br/>
 404: Place not found<br/>
 
-## places/activate/{id} GET
+## places/{id} PATCH
 
 Descrição: Ativa um local por id. Locais desativados não são retornados nos serviços search e list.
 

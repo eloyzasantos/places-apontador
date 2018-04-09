@@ -3,6 +3,7 @@ package br.com.manager.places.service;
 import br.com.manager.places.exception.CoordinatesNotFound;
 import br.com.manager.places.model.Address;
 import br.com.manager.places.model.ResponseGeoApi;
+import br.com.manager.places.model.ResultGeoApi;
 import br.com.manager.places.util.Validator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
@@ -21,17 +22,19 @@ public class GeoService {
 		
 		String url = createUrl(address);
 		
-		ResponseGeoApi result = restTemplate.getForObject(url, ResponseGeoApi.class);
+		ResponseGeoApi response = restTemplate.getForObject(url, ResponseGeoApi.class);
 		
-		if (!Validator.validateResponseApiGeo(result)) {
+		if (!Validator.validateResponseApiGeo(response)) {
 			throw new CoordinatesNotFound("Invalid Address. Coordinates not found.");
 		}
 		
-		double lg = result.getResults().get(0).getGeometry().getLocation().getLng();
-		double lt = result.getResults().get(0).getGeometry().getLocation().getLat();
+		ResultGeoApi result = response.getResults().iterator().next();
+		
+		double lg = result.getGeometry().getLocation().getLng();
+		double lt = result.getGeometry().getLocation().getLat();
 		
 		address.setLocation(new GeoJsonPoint(lg, lt));
-		address.setPlaceId(result.getResults().get(0).getPlace_id());
+		address.setPlaceId(result.getPlace_id());
 	}
 	
 	protected String createUrl(Address address) {
@@ -39,11 +42,15 @@ public class GeoService {
 	}
 	
 	protected String formatAddress(Address address) {
-		StringBuilder formattedAddress = new StringBuilder(address.getStreetNumber())
-				.append(" ").append(address.getStreet()).append(" ")
-				.append(address.getDistrict()).append(" ")
-				.append(address.getCity()).append(" ").append(address.getState());
-		
-		return formattedAddress.toString();
+		return String.format("%s %s %s %s %s", 
+				address.getStreetNumber(), address.getStreet(),
+				address.getDistrict(), address.getCity(),
+				address.getState());
+//		StringBuilder formattedAddress = new StringBuilder(address.getStreetNumber())
+//				.append(" ").append(address.getStreet()).append(" ")
+//				.append(address.getDistrict()).append(" ")
+//				.append(address.getCity()).append(" ").append(address.getState());
+//		
+//		return formattedAddress.toString();
 	}
 }

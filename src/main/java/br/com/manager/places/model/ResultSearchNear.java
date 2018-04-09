@@ -2,6 +2,8 @@ package br.com.manager.places.model;
 
 import org.springframework.data.geo.Distance;
 
+import br.com.manager.places.domain.Place;
+
 public class ResultSearchNear {
 
 	private Place place;
